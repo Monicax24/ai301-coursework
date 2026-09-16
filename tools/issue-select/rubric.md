@@ -34,9 +34,16 @@ will fail eval issues designed around that family.
 
 | Check | Evidence | Pass condition | Weight |
 |---|---|---|---|
-|  |  |  |  |
+| maintainer-active | "maintainer first-response sample" under Repo facts | At least one maintainer response in the sample occurred within the last 90 days | required |
+| repo-active | "last push to any branch", "latest release", and "archived" under Repo facts | The repository is not archived and has had a push to any branch within the last 90 days | required |
+| scope-fits-newcomer | Issue body and comment thread; labels and maintainer comments when present | The issue describes one bounded contribution, is not a usage/support question or umbrella/tracking issue, and does not require broad or architecture-level changes | required |
+| not-already-claimed | Assignee field, linked PRs, and issue comment thread | The issue has no assignee, no open linked PR, and no comment indicating that someone has claimed or is actively working on it | required |
+| contribution-policy | "contribution policy" under Repo facts | The repository has no stated ban on AI-assisted or AI-generated contributions | required |
+| reproducible-context | Issue body and comment thread | The issue provides enough information to begin investigating, such as reproduction steps, an error message, or expected versus actual behavior | preferred |
 
 ## Verdict rule
+
+Accept only if every required check passes. A single required check that fails rejects the issue. Unclear (?) on a required check counts as a fail. Preferred checks never affect the verdict; they only help rank issues that are accepted.
 
 <!-- State how the grades above combine into accept or reject, and how
 unclear is treated. Example shape (write your own): "accept if every

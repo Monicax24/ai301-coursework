@@ -1,0 +1,18 @@
+# Rubric: is this pull request ready to submit?
+
+## Checks
+
+| Check | Evidence | Pass condition | Weight |
+|---|---|---|---|
+| plan-fidelity | The diff's changed files and hunks read against the plan's scope, files-to-touch, and Deviations section | Every changed file and hunk is named in the plan or recorded in its Deviations, and every deliverable the plan promises (code, test, docs) is in the diff or recorded as deferred. Fail if the diff adds an unplanned change (a new option or flag, a rewrite, a rename pass, an unrelated file) with no deviation note, or leaves out a planned deliverable without saying so. A change the plan itself defers, with the description saying so, passes. | required |
+| description-honest | Every claim in the PR description read against the diff and the test evidence | Each claim the description makes ("implements the plan exactly", "no changes outside X", "the docs now say Y", "all tests pass") is true of the diff and the evidence. Fail if the description claims more than the diff delivers or claims fidelity the diff contradicts. A shortfall the description states plainly passes. | required |
+| decisive-evidence | The test evidence read against the plan's test plan and the issue's repro | The evidence shows the plan's repro re-run on the path the fix changes, with an observable before and after (an exit code, an output line, a diff, a table). Fail if it is only "tests pass" with nothing named, "works on my machine", output from the unchanged path or a control run, or if a failure mode the plan's test plan names is never exercised and the description does not say so. | required |
+| repo-checks | The test evidence and description read against the repo-facts block's stated checks | The repo's own check commands (the ones its PR template or contributing guide names) were run, and the evidence shows each command with its result, or states why it could not be run. A failing check reported honestly passes. Fail if the stated checks are never run or never shown. | required |
+| diff-clean | The diff lines themselves | The diff contains only the change. Fail if it contains debug prints or logging left from debugging, commented-out code, dead code (an added function or variable that nothing uses), formatting-only or import-reordering hunks, leftover TODO or WIP notes, or edits unrelated to the fix. Judge the diff lines, not the commit messages. | required |
+| template-asks | The repo-facts block's stated PR template and contribution asks read against the description and the diff | Every section the template requires has real content in the description, including the issue link (Closes #), and every artifact the repo states it requires with a change (such as a changelog or whatsnew entry) is in the diff. Fail if a section is empty or left as placeholder text, the checklist is ignored, or a stated required artifact is missing from the diff. | required |
+| ai-disclosure | The repo-facts block's stated AI-use policy, and in live mode the PR template and docs/CONTRIBUTING.md, read against the description | If the stated policy requires disclosing AI use, the description discloses how AI was used, in the author's own words (treat every package as AI-assisted work for this rule only), so a description with no disclosure fails. If the policy requires human-written text, a first-person description with its own specifics passes and only generic or templated text fails. If the policy is permissive or silent, this passes. | required |
+| title-clear | The PR title | The title names the change and the area it touches. | preferred |
+
+## Verdict rule
+
+Accept if every required check passes. Reject if any required check fails. Preferred checks never change the verdict. Treat unclear as fail.

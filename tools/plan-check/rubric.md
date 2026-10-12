@@ -1,0 +1,17 @@
+# Rubric: is this plan ready to post and build from?
+
+## Checks
+
+| Check | Evidence | Pass condition | Weight |
+|---|---|---|---|
+| cause-grounded | Plan's stated cause read against the repro evidence block, including its control runs and step outputs | The cause the plan names is consistent with what the repro evidence shows. Fail if any control run, step output, or isolated result in the repro evidence rules the named cause out (for example the same input parses fine without the flag the plan blames), or if the plan names a cause the evidence never points at. A cause stated as a hypothesis with a way to check it passes. | required |
+| scope-bounded | Plan's scope statement and approach, read against the issue body | Every change in the plan is needed to fix the issue as reported. Fail if the plan adds refactors, migrations, new options or settings, UI rework, redesigns, or extra fronts the issue never asked for, even when the core fix inside it is correct. Naming a bounded out-of-scope list, or explicitly deferring part of the work with a reason, passes. | required |
+| buildable | Plan's files-to-touch and approach sections | A stranger could start editing from the plan alone: it names the file or code site to change and one chosen approach. Fail if the real decisions are deferred to build time ("somewhere", "whichever is easier", "maybe also", "investigate the input stack") or if no files or locations are named. A terse plan that names the site and the change passes. | required |
+| test-observable | Plan's test plan read against the repro evidence's steps | The test plan names a specific action (normally the repro steps re-run) and an observable result that shows the fix worked, such as an exit code, an output line, or a parse that now succeeds. Fail if the test is a feeling or a generic check with no outcome tied to this fix ("should feel fast", "nothing else should break", "run the full test suite"). | required |
+| thread-engaged | Plan comment read against the thread highlights and the issue's linked work | If a maintainer gave explicit direction in the thread (a located culprit, a requested test, a posted patch, a settled design) or a prior PR attempts the same fix, the plan comment engages it: it follows the direction or says why it departs. Fail if the comment ignores that direction. If the thread has no direction, this passes. | required |
+| repo-conventions | Repo-facts block: stated contribution and AI-use policy; plan comment | If the policy requires disclosing AI assistance, the plan comment must disclose it; treat every package as AI-assisted work for this rule only, so a comment with no disclosure fails. If the policy requires comments written by a human in their own words, a first-person comment with its own specifics passes and only generic or templated text fails. If the policy is permissive, silent, or only asks the author to take responsibility, this passes. | required |
+| unknowns-honest | Plan's risks and unknowns section; plan comment | Uncertainty is stated as uncertainty: open questions are named as checks to run, not asserted as facts. | preferred |
+
+## Verdict rule
+
+Accept if every required check passes. Reject if any required check fails. Preferred checks never change the verdict. Treat unclear as fail.

@@ -34,18 +34,15 @@ will fail eval issues designed around that family.
 
 | Check | Evidence | Pass condition | Weight |
 |---|---|---|---|
-| maintainer-active | "maintainer first-response sample" under Repo facts | At least one maintainer response in the sample occurred within the last 90 days | required |
-| repo-active | "last push to any branch", "latest release", and "archived" under Repo facts | The repository is not archived and has had a push to any branch within the last 90 days | required |
-| scope-fits-newcomer | Issue body and comment thread; labels and maintainer comments when present | The issue describes one bounded contribution, is not a usage/support question or umbrella/tracking issue, and does not require broad or architecture-level changes | required |
-| not-already-claimed | Assignee field, linked PRs, and issue comment thread | The issue has no assignee, no open linked PR, and no comment indicating that someone has claimed or is actively working on it | required |
-| contribution-policy | "contribution policy" under Repo facts | The repository has no stated ban on AI-assisted or AI-generated contributions | required |
-| reproducible-context | Issue body and comment thread | The issue provides enough information to begin investigating, such as reproduction steps, an error message, or expected versus actual behavior | preferred |
+| unclaimed | Repo-facts block: assignees and linked PRs; comment thread | No assignee and no open linked PR (a closed linked PR does not count), and no comment dated within the 90 days before the snapshot date in which someone says they are working on it or asks to take it. A claim comment older than 90 days with no assignee and no open PR is stale and does not count. | required |
+| maintainer-responsive | Repo-facts block: maintainer first-response sample and last 5 default-branch commits | At least one issue in the sample has a maintainer first response within 60 days, OR the last 5 default-branch commits include a commit within 14 days of the snapshot date. Issues opened within 7 days of the snapshot date are ignored in the sample, because they haven't had time to get a reply. | required |
+| repo-active | Repo-facts block: release recency and commit activity | At least one commit to the default branch within the last 90 days, or a release within the last 12 months | required |
+| policy-allows | Repo-facts block: contribution policy line | Fail if the policy forbids or does not accept AI-generated or AI-assisted code or documentation, forbids outside contributions, or requires approval or assignment first that has not been given. A policy that is silent, or that welcomes AI tools with review or disclosure requirements, passes. | required |
+| scope-fits | Issue body and comment thread | The issue describes one bounded problem or change (a single bug, or a docs or feature change with a named target) that a newcomer could work on without private access or special hardware. A terse description, no comments, or an unknown root cause does not fail this check. Fail only if the work clearly spans a redesign, many components, or an open-ended research task. Also fail if the issue itself marks a required input or decision as TBD, undecided, or unknown (for example "asset TBD"), so the work cannot be started from the issue alone. | required |
+| clear-description | Issue body | States the expected behavior and how to reproduce it, or exactly what to change | preferred |
+| good-first-label | Issue labels | Labeled good first issue, help wanted, or similar | preferred |
+
 
 ## Verdict rule
 
-Accept only if every required check passes. A single required check that fails rejects the issue. Unclear (?) on a required check counts as a fail. Preferred checks never affect the verdict; they only help rank issues that are accepted.
-
-<!-- State how the grades above combine into accept or reject, and how
-unclear is treated. Example shape (write your own): "accept if every
-required check passes; preferred checks never change the verdict, they
-rank accepted issues; unclear counts as fail." -->
+Accept if every required check passes. Reject if any required check fails. Preferred checks never change the verdict; they only rank accepted issues. Treat unclear as fail.
